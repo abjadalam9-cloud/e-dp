@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Desa | Portal Resmi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --hijau-desa: #2c6e49;
+            --kuning-desa: #f9c74f;
+            --coklat-desa: #583e2e;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; }
+        .navbar-publik { background: linear-gradient(135deg, var(--hijau-desa), #3a8a5c); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .navbar-admin { background: linear-gradient(135deg, #212529, #343a40); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .nav-link { color: white !important; font-weight: 500; margin: 0 5px; }
+        .nav-link:hover { background: rgba(255,255,255,0.15); border-radius: 5px; }
+        .hero { background: linear-gradient(rgba(44, 110, 73, 0.8), rgba(44, 110, 73, 0.6)), url('https://picsum.photos/id/1039/1600/400') center/cover; color: white; padding: 80px 0; }
+        .card { border: none; box-shadow: 0 3px 10px rgba(0,0,0,0.08); transition: 0.3s; margin-bottom: 20px; }
+        .card:hover { transform: translateY(-5px); }
+        .sidebar { min-height: 100vh; background-color: #343a40; color: white; padding-top: 20px; }
+        .sidebar .nav-link { color: #ddd !important; padding: 12px 20px; border-radius: 0; }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { background-color: var(--hijau-desa); color: white !important; }
+        .section { padding: 50px 0; }
+        .footer { background-color: var(--coklat-desa); color: white; padding: 30px 0; margin-top: 40px; }
+        .d-none { display: none !important; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .login-card { max-width: 400px; margin: 100px auto; }
+    </style>
+</head>
+<body>
+
+<!-- ==============================================
+    BAR ATAS: TOMBIL PILIH MODE & INFO
+=============================================== -->
+<div class="container-fluid bg-light border-bottom py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span class="fw-bold text-success">🏛️ Portal Desa Sejahtera</span>
+        <div>
+            <button id="btnModePublik" class="btn btn-success btn-sm">🌐 Tampilan Publik</button>
+            <button id="btnModeAdmin" class="btn btn-dark btn-sm">🔐 Panel Admin</button>
+            <span id="infoUser" class="ms-2 text-muted small d-none"></span>
+            <button id="btnLogout" class="btn btn-outline-danger btn-sm ms-1 d-none">🚪 Keluar</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==============================================
+    HALAMAN LOGIN ADMIN
+=============================================== -->
+<div id="halamanLogin" class="d-none">
+    <div class="container">
+        <div class="login-card card p-4">
+            <h3 class="text-center mb-4">🔐 Login Administrator</h3>
+            <div id="pesanError" class="alert alert-danger d-none"></div>
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" id="inputUser" class="form-control" placeholder="Masukkan username">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" id="inputPass" class="form-control" placeholder="Masukkan password">
+            </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="tampilPass">
+                <label class="form-check-label" for="tampilPass">Tampilkan password</label>
+            </div>
+            <button id="btnMasuk" class="btn btn-dark w-100">Masuk ke Panel Admin</button>
+            <p class="text-center mt-3 small text-muted">Default: <strong>admin</strong> / <strong>desa123</strong></p>
+        </div>
+    </div>
+</div>
+
+<!-- ==============================================
+    BAGIAN 1: TAMPILAN PUBLIK
+=============================================== -->
+<div id="areaPublik">
+    <!-- Navbar Publik -->
+    <nav class="navbar navbar-expand-lg navbar-publik">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold" href="#" onclick="tampilHalamanPublik('beranda'); return false;">🏡 Desa Sejahtera</a>
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#menuPublik">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menuPublik">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="tampilHalamanPublik('beranda'); return false;">Beranda</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Profil Desa</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('sejarah'); return false;">Sejarah Desa</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('visimisi'); return false;">Visi & Misi</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('wilayah'); return false;">Wilayah & Peta</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('demografi'); return false;">Demografi</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('potensi-desa'); return false;">Potensi Desa</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Pemerintahan</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('struktur'); return false;">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('perangkat'); return false;">Perangkat Desa</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('bpd'); return false;">BPD</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="tampilHalamanPublik('tugas-fungsi'); return false;">Tugas & Fungsi</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="tampilHalamanPublik('berita'); return false;">Berita</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="tampilHalamanPublik('layanan'); return false;">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="tampilHalamanPublik('transparansi'); return false;">Transparansi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="tampilHalamanPublik('potensi'); return false;">Ekonomi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="tampilHalamanPublik('galeri'); return false;">Galeri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="tampilHalamanPublik('kontak'); return false;">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- KONTEN HALAMAN PUBLIK -->
+    <div class="container">
+        <!-- BERANDA -->
+        <div id="pub-beranda" class="page-section active">
+            <section class="hero text-center rounded-bottom">
+                <h1 class="display-4 fw-bold">Selamat Datang di Desa Sejahtera</h1>
+                <p class="lead">Portal Informasi Resmi Pemerintahan Desa — Membangun Desa Lebih Baik</p>
+            </section>
+            <section class="bg-warning bg-opacity-10 py-3 border rounded my-4">
+                <div class="container">
+                    <p class="mb-0"><strong>📢 Pengumuman:</strong> Pendataan warga akan dilaksanakan tanggal 15–20 November 2026. Harap siap KK/KTP.</p>
+                </div>
+            </section>
+            <div class="row my-5">
+                <div class="col-md-4">
+                    <div class="card p-3 text-center">
+                        <i class="bi bi-newspaper text-success fs-1"></i>
+                        <h5>Berita Terbaru</h5>
+                        <p>Informasi kegiatan dan perkembangan desa</p>
+                        <button class="btn btn-sm btn-success" onclick="tampilHalamanPublik('berita')">Baca Selengkapnya</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3 text-center">
+                        <i class="bi bi-file-earmark-text text-success fs-1"></i>
+                        <h5>Pelayanan Publik</h5>
+                        <p>Panduan pembuatan surat dan dokumen</p>
+                        <button class="btn btn-sm btn-success" onclick="tampilHalamanPublik('layanan')">Lihat Layanan</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3 text-center">
+                        <i class="bi bi-cash-coin text-success fs-1"></i>
+                        <h5>Transparansi Anggaran</h5>
+                        <p>Laporan keuangan dan pembangunan desa</p>
+                        <button class="btn btn-sm btn-success" onclick="tampilHalamanPublik('transparansi')">Lihat Laporan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEJARAH DESA -->
+        <div id="pub-sejarah" class="page-section section">
+            <h2>📜 Sejarah Desa Sejahtera</h2>
+            <hr>
+            <p>Desa Sejahtera didirikan pada tahun 1950 oleh sekelompok masyarakat yang bermigrasi dari daerah pegunungan. Awalnya desa ini dikenal sebagai daerah pertanian yang subur.</p>
+            <p>Seiring berjalannya waktu, desa ini berkembang pesat dengan pembangunan infrastruktur yang memadai. Pada tahun 2010, desa ini resmi berganti nama menjadi Desa Sejahtera sebagai harapan seluruh warga agar hidup semakin makmur.</p>
+            <p>Saat ini Desa Sejahtera terdiri dari 4 dusun dengan total penduduk lebih dari 2.000 jiwa.</p>
+        </div>
+
+        <!-- VISI & MISI -->
+        <div id="pub-visimisi" class="page-section section">
+            <h2>🎯 Visi & Misi</h2>
+            <hr>
+            <h4>Visi</h4>
+            <p class="fst-italic">"Terwujudnya Desa Sejahtera yang Maju, Adil, dan Berbudaya Berbasis Partisipasi Masyarakat"</p>
+            <h4 class="mt-4">Misi</h4>
+            <ol>
+                <li>Meningkatkan kualitas dan pemerataan pembangunan infrastruktur desa</li>
+                <li>Mengembangkan potensi ekonomi lokal dan pemberdayaan masyarakat</li>
+                <li>Meningkatkan kualitas pelayanan publik yang transparan dan akuntabel</li>
+                <li>Melestarikan budaya dan menjaga lingkungan hidup</li>
+                <li>Meningkatkan kualitas pendidikan dan kesehatan masyarakat</li>
+            </ol>
+        </div>
+
+        <!-- WILAYAH & PETA -->
+        <div id="pub-wilayah" class="page-section section">
+            <h2>🗺️ Letak & Wilayah</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Batas Wilayah</h5>
+                    <ul>
+                        <li>Utara: Desa Makmur</li>
+                        <li>Selatan: Pegunungan Hijau</li>
+                        <li>Timur: Sungai Bahagia</li>
+                        <li>Barat: Desa Sentosa</li>
+                    </ul>
+                    <h5 class="mt-4">Luas Wilayah</h5>
+                    <p>Total luas wilayah: 2.450 Hektar</p>
+                    <ul>
+                        <li>Lahan Pertanian: 1.200 Ha</li>
+                        <li>Pemukiman: 350 Ha</li>
+                        <li>Hutan & Lahan Kosong: 900 Ha</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-light p-5 text-center rounded border">
+                        <i class="bi bi-map fs-1 text-muted"></i>
+                        <p class="mt-2">Peta Lokasi Desa Sejahtera</p>
+                        <small class="text-muted">Peta akan dimuat di sini</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEMOGRAFI -->
+        <div id="pub-demografi" class="page-section section">
+            <h2>👥 Data Demografi</h2>
+            <hr>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr><th>Jumlah Penduduk</th><td>2.150 Jiwa</td></tr>
+                    <tr><th>Jumlah Laki-laki</th><td>1.090 Jiwa</td></tr>
+                    <tr><th>Jumlah Perempuan</th><td>1.060 Jiwa</td></tr>
+                    <tr><th>Jumlah Kepala Keluarga</th><td>580 KK</td></tr>
+                    <tr><th>Jumlah Dusun</th><td>4 Dusun</td></tr>
+                    <tr><th>Jumlah RT</th><td>12 RT</td></tr>
+                </table>
+            </div>
+            <h5 class="mt-4">Pendidikan Terakhir</h5>
+            <ul>
+                <li>Tidak Sekolah: 8%</li>
+                <li>SD/Sederajat: 28%</li>
+                <li>SMP/Sederajat: 25%</li>
+                <li>SMA/Sederajat: 27%</li>
+                <li>Perguruan Tinggi: 12%</li>
+            </ul>
+        </div>
+
+        <!-- POTENSI DESA -->
+        <div id="pub-potensi-desa" class="page-section section">
+            <h2>💎 Potensi Desa</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>🌾 Sektor Pertanian</h5>
+                    <p>Desa Sejahtera memiliki lahan pertanian yang luas dan subur. Komoditas utama meliputi padi, jagung, dan sayur-sayuran.</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>🌴 Perkebunan</h5>
+                    <p>Perkebunan kelapa, kopi, dan cokelat menjadi sumber pendapatan utama sebagian warga desa.</p>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <h5>🐄 Peternakan</h5>
+                    <p>Pet
